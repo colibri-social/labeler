@@ -1,27 +1,19 @@
+import cors from "@fastify/cors";
 import { LabelerServer } from "@skyware/labeler";
+import { loadEnv } from "./env.js";
 
-const did = process.env.LABELER_DID;
-const signingKey = process.env.LABELER_SIGNING_KEY;
-const dbUrl = process.env.LABELER_DB_URL;
-const dbToken = process.env.LABELER_DB_TOKEN;
-const port = Number(process.env.LABELER_PORT ?? 14831);
-const host = process.env.LABELER_HOST ?? "0.0.0.0";
+process.on("unhandledRejection", (err) => {
+	console.error(err);
+	process.exit(1);
+});
 
-if (!did || !signingKey) {
-	throw new Error(
-		"LABELER_DID and LABELER_SIGNING_KEY must be set. Run `pnpm setup` first.",
-	);
-}
+const env = loadEnv();
 
-if (!dbUrl || !dbToken) {
-	throw new Error(
-		"LABELER_DB_URL and LABELER_DB_TOKEN must be set (remote libSQL instance).",
-	);
-}
+export const server = new LabelerServer(env);
 
-export const server = new LabelerServer({ did, signingKey, dbUrl, dbToken });
+await server.app.register(cors, { origin: true });
 
-server.start({ port, host }, (error, address) => {
+server.start({ port: env.port, host: env.host }, (error, address) => {
 	if (error) {
 		console.error(error);
 		process.exit(1);

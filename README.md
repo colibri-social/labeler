@@ -28,19 +28,21 @@ The service must be reachable at a stable public HTTPS URL (matching the service
 
 ## Assigning a badge
 
-Badges are handed out manually by an operator via the CLI:
+Run the interactive TUI:
 
 ```sh
-pnpm dlx @skyware/labeler label add    # define/update label metadata (name, description, severity)
+pnpm label
 ```
 
-To actually apply a label to a user's DID (i.e. grant the badge), use the CLI's label management flow or a short one-off script that imports the same `server` instance from `src/index.ts` and calls:
+It walks you through: resolving a handle or DID, picking a badge (or entering a custom value), granting or revoking it, and a confirmation step before applying.
 
-```ts
-await server.createLabels({ did: "did:plc:target-user" }, { create: ["team"] });
+To define new label metadata (name, description, severity) rather than just applying existing ones, use the CLI instead:
+
+```sh
+pnpm dlx @skyware/labeler label add
 ```
 
-To revoke, pass the value in `negate` instead of `create`.
+Programmatically, granting/revoking is `server.createLabels({ uri: "did:plc:target-user" }, { create: ["team"] })` (use `negate` instead of `create` to revoke) — this is what `pnpm label` does under the hood.
 
 ## Reading badges
 

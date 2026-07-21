@@ -4,15 +4,19 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "tsx watch src/index.ts",
+		"dev": "tsx watch --env-file=.env src/index.ts",
 		"build": "tsc -p tsconfig.json",
 		"start": "node dist/index.js",
 		"setup": "labeler",
+		"label": "tsx --env-file=.env src/scripts/add-label.ts",
 		"lint": "biome check .",
 		"lint:fix": "biome check . --write"
 	},
 	"dependencies": {
-		"@skyware/labeler": "^0.2.0"
+		"@clack/prompts": "^1.7.0",
+		"@fastify/cors": "^9.0.1",
+		"@skyware/labeler": "^0.2.0",
+		"picocolors": "^1.1.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.2",
