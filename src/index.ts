@@ -5,6 +5,7 @@ const signingKey = process.env.LABELER_SIGNING_KEY;
 const dbUrl = process.env.LABELER_DB_URL;
 const dbToken = process.env.LABELER_DB_TOKEN;
 const port = Number(process.env.LABELER_PORT ?? 14831);
+const host = process.env.LABELER_HOST ?? "0.0.0.0";
 
 if (!did || !signingKey) {
 	throw new Error(
@@ -20,7 +21,7 @@ if (!dbUrl || !dbToken) {
 
 export const server = new LabelerServer({ did, signingKey, dbUrl, dbToken });
 
-server.start(port, (error, address) => {
+server.start({ port, host }, (error, address) => {
 	if (error) {
 		console.error(error);
 		process.exit(1);

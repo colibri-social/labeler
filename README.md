@@ -15,6 +15,7 @@ A standalone AT Protocol labeler service used to manually hand out badges (e.g. 
    - `LABELER_DID` / `LABELER_SIGNING_KEY`: printed by the `setup` command.
    - `LABELER_DB_URL` / `LABELER_DB_TOKEN`: a remote libSQL database.
    - `LABELER_PORT`: defaults to `14831`.
+   - `LABELER_HOST`: defaults to `0.0.0.0`.
 
 ## Running
 
