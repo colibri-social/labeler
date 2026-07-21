@@ -1,4 +1,3 @@
-import cors from "@fastify/cors";
 import { LabelerServer } from "@skyware/labeler";
 import { loadEnv } from "./env.js";
 
@@ -11,7 +10,9 @@ const env = loadEnv();
 
 export const server = new LabelerServer(env);
 
-await server.app.register(cors, { origin: true });
+server.app.server.prependListener("request", (_req, res) => {
+	res.setHeader("Access-Control-Allow-Origin", "*");
+});
 
 server.start({ port: env.port, host: env.host }, (error, address) => {
 	if (error) {
